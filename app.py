@@ -71,7 +71,7 @@ def enviar_correo_async(archivo_pdf):
         import threading
 
         message = Mail(
-            from_email="tu_correo_verificado@tudominio.com",
+            from_email="ekleain@gmail.com",
             to_emails="ekleain@gmail.com",
             subject="Nuevo reporte tecnico",
             html_content="<strong>Adjunto reporte técnico</strong>"
