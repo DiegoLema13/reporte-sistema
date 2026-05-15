@@ -3,6 +3,8 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import datetime
 
+import threading
+
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
@@ -52,43 +54,48 @@ def enviar():
 
     generar_pdf(nombre, provincia, problema, fecha, pdf_file)
 
-    # ⚠️ IMPORTANTE: comentar correo temporalmente
-    # enviar_correo(pdf_file)
+    # 🚀 ahora sí activamos correo sin bloquear
+    enviar_correo_async(pdf_file)
 
-    return "Reporte recibido ✔ PDF generado correctamente"
+    return "Reporte recibido ✔ PDF generado y enviado por correo"
 
 # =========================
 # CORREO
 # =========================
-def enviar_correo(archivo_pdf):
+def enviar_correo_async(archivo_pdf):
 
-    remitente = "ekleain@gmail.com"
-    password = "sbpl wmde xqat lhwy"
-    destino = "ekleain@gmail.com"
+    def tarea():
+        import smtplib
+        from email.mime.multipart import MIMEMultipart
+        from email.mime.base import MIMEBase
+        from email import encoders
 
-    msg = MIMEMultipart()
-    msg["Subject"] = "Nuevo reporte tecnico"
-    msg["From"] = remitente
-    msg["To"] = destino
+        remitente = "ekleain@gmail.com"
+        password = "sbpl wmde xqat lhwy"
+        destino = "ekleain@gmail.com"
 
-    with open(archivo_pdf, "rb") as f:
-        parte = MIMEBase("application", "octet-stream")
-        parte.set_payload(f.read())
+        msg = MIMEMultipart()
+        msg["Subject"] = "Nuevo reporte tecnico"
+        msg["From"] = remitente
+        msg["To"] = destino
 
-    encoders.encode_base64(parte)
-    parte.add_header(
-        "Content-Disposition",
-        f"attachment; filename={archivo_pdf}"
-    )
+        with open(archivo_pdf, "rb") as f:
+            parte = MIMEBase("application", "octet-stream")
+            parte.set_payload(f.read())
 
-    msg.attach(parte)
+        encoders.encode_base64(parte)
+        parte.add_header("Content-Disposition", f"attachment; filename={archivo_pdf}")
 
-    server = smtplib.SMTP("smtp.gmail.com", 587)
-    server.starttls()
-    server.login(remitente, password)
-    server.send_message(msg)
-    server.quit()
+        msg.attach(parte)
 
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(remitente, password)
+        server.send_message(msg)
+        server.quit()
+
+    # correr en segundo plano
+    threading.Thread(target=tarea).start()
 
 # =========================
 # RUN
