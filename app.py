@@ -5,10 +5,13 @@ import datetime
 
 import threading
 
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email import encoders
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+import base64
+
+import os
+
+
 
 app = Flask(__name__)
 
@@ -65,36 +68,28 @@ def enviar():
 def enviar_correo_async(archivo_pdf):
 
     def tarea():
-        import smtplib
-        from email.mime.multipart import MIMEMultipart
-        from email.mime.base import MIMEBase
-        from email import encoders
+        import threading
 
-        remitente = "ekleain@gmail.com"
-        password = "sbpl wmde xqat lhwy"
-        destino = "ekleain@gmail.com"
-
-        msg = MIMEMultipart()
-        msg["Subject"] = "Nuevo reporte tecnico"
-        msg["From"] = remitente
-        msg["To"] = destino
+        message = Mail(
+            from_email="tu_correo_verificado@tudominio.com",
+            to_emails="ekleain@gmail.com",
+            subject="Nuevo reporte tecnico",
+            html_content="<strong>Adjunto reporte técnico</strong>"
+        )
 
         with open(archivo_pdf, "rb") as f:
-            parte = MIMEBase("application", "octet-stream")
-            parte.set_payload(f.read())
+            import base64
+            encoded_file = base64.b64encode(f.read()).decode()
 
-        encoders.encode_base64(parte)
-        parte.add_header("Content-Disposition", f"attachment; filename={archivo_pdf}")
+        message.attachment = {
+            "content": encoded_file,
+            "type": "application/pdf",
+            "filename": archivo_pdf,
+            "disposition": "attachment"
+        }
+        sg = SendGridAPIClient(os.environ["SENDGRID_API_KEY"])
+        sg.send(message)
 
-        msg.attach(parte)
-
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.starttls()
-        server.login(remitente, password)
-        server.send_message(msg)
-        server.quit()
-
-    # correr en segundo plano
     threading.Thread(target=tarea).start()
 
 # =========================
