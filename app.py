@@ -75,8 +75,8 @@ def enviar_correo_async(archivo_pdf):
             from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
 
             message = Mail(
-                from_email="TU_EMAIL_VERIFICADO@gmail.com",
-                to_emails="TU_EMAIL@gmail.com",
+                from_email="ekleain@gmail.com",
+                to_emails="ekleain@gmail.com",
                 subject="Nuevo reporte tecnico",
                 html_content="Adjunto reporte técnico"
             )
