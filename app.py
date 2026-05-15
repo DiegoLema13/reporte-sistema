@@ -51,13 +51,11 @@ def enviar():
     pdf_file = "reporte.pdf"
 
     generar_pdf(nombre, provincia, problema, fecha, pdf_file)
-    enviar_correo(pdf_file)
 
-    return """
-    <h2>Reporte enviado correctamente ✔</h2>
-    <p>Ya puedes cerrar esta ventana</p>
-    """
+    # ⚠️ IMPORTANTE: comentar correo temporalmente
+    # enviar_correo(pdf_file)
 
+    return "Reporte recibido ✔ PDF generado correctamente"
 
 # =========================
 # CORREO
