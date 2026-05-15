@@ -48,14 +48,15 @@ def enviar():
     problema = request.form["problema"]
     fecha = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    # 1. GENERAR PDF
     pdf_file = "reporte.pdf"
-    generar_pdf(nombre, provincia, problema, fecha, pdf_file)
 
-    # 2. ENVIAR CORREO
+    generar_pdf(nombre, provincia, problema, fecha, pdf_file)
     enviar_correo(pdf_file)
 
-    return "PDF generado y enviado correctamente"
+    return """
+    <h2>Reporte enviado correctamente ✔</h2>
+    <p>Ya puedes cerrar esta ventana</p>
+    """
 
 
 # =========================
