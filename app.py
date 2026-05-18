@@ -3,10 +3,6 @@ import datetime
 import threading
 import os
 import base64
-import subprocess
-import subprocess
-import shutil
-
 
 from docxtpl import DocxTemplate
 from sendgrid import SendGridAPIClient
@@ -26,8 +22,11 @@ app = Flask(__name__)
 # GENERAR DOCUMENTO WORD DESDE plantilla.docx
 # ==============================================
 def generar_documento(nombre, provincia, problema, fecha, archivo_docx):
+    # Carga la plantilla Word ubicada en la raíz del proyecto
     doc = DocxTemplate("plantilla.docx")
 
+    # Variables que reemplazarán:
+    # {{ nombre }}, {{ provincia }}, {{ problema }}, {{ fecha }}
     contexto = {
         "nombre": nombre,
         "provincia": provincia,
@@ -35,78 +34,55 @@ def generar_documento(nombre, provincia, problema, fecha, archivo_docx):
         "fecha": fecha,
     }
 
+    # Reemplazar variables y guardar el documento final
     doc.render(contexto)
     doc.save(archivo_docx)
 
 
 # ==============================================
-# CONVERTIR WORD A PDF (compatible con Render)
+# ENVIAR CORREO CON DOCX ADJUNTO
 # ==============================================
-def convertir_a_pdf(docx_path):
-    # Buscar el ejecutable disponible
-    ejecutable = (
-        shutil.which("soffice")
-        or shutil.which("libreoffice")
-        or "/usr/bin/soffice"
-        or "/usr/bin/libreoffice"
-    )
+def enviar_correo_async(archivo):
 
-    if not ejecutable:
-        raise Exception(
-            "No se encontró LibreOffice. Verifica que APT_PACKAGES=libreoffice esté configurado en Render."
-        )
-
-    subprocess.run(
-        [
-            ejecutable,
-            "--headless",
-            "--convert-to",
-            "pdf",
-            docx_path,
-            "--outdir",
-            ".",
-        ],
-        check=True,
-    )
-
-# ==============================================
-# ENVIAR CORREO CON PDF ADJUNTO
-# ==============================================
-def enviar_correo_async(archivo_pdf):
     def tarea():
         try:
             message = Mail(
-                from_email="ekleain@gmail.com",  # cambia si deseas
-                to_emails="ekleain@gmail.com",   # cambia si deseas
+                from_email="ekleain@gmail.com",
+                to_emails="ekleain@gmail.com",
                 subject="Nuevo reporte técnico",
-                html_content="Se adjunta el reporte técnico en formato PDF.",
+                html_content="Adjunto reporte técnico generado automáticamente.",
             )
 
-            with open(archivo_pdf, "rb") as f:
-                encoded = base64.b64encode(f.read()).decode()
+            # Leer el archivo DOCX
+            with open(archivo, "rb") as f:
+                data = base64.b64encode(f.read()).decode()
 
+            # Adjuntar el archivo Word
             attachment = Attachment(
-                FileContent(encoded),
-                FileName(os.path.basename(archivo_pdf)),
-                FileType("application/pdf"),
+                FileContent(data),
+                FileName(os.path.basename(archivo)),
+                FileType(
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                ),
                 Disposition("attachment"),
             )
 
             message.attachment = attachment
 
+            # Enviar usando SendGrid
             sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
             response = sg.send(message)
 
-            print("Correo enviado. Status:", response.status_code)
+            print("STATUS SENDGRID:", response.status_code)
 
         except Exception as e:
-            print("Error al enviar correo:", str(e))
+            print("ERROR SENDGRID:", str(e))
 
     threading.Thread(target=tarea).start()
 
 
 # ==============================================
-# RUTA PRINCIPAL
+# FORMULARIO
 # ==============================================
 @app.route("/")
 def home():
@@ -118,17 +94,18 @@ def home():
 # ==============================================
 @app.route("/enviar", methods=["POST"])
 def enviar():
+    # Obtener datos del formulario
     nombre = request.form["nombre"]
     provincia = request.form["provincia"]
     problema = request.form["problema"]
 
-    # Formato de fecha sugerido: 18-05-2026
+    # Formato de fecha
     fecha = datetime.datetime.now().strftime("%d-%m-%Y")
 
+    # Archivo de salida
     archivo_docx = "reporte_tecnico.docx"
-    archivo_pdf = "reporte_tecnico.pdf"
 
-    # 1. Generar Word desde la plantilla
+    # Generar documento Word basado en la plantilla
     generar_documento(
         nombre=nombre,
         provincia=provincia,
@@ -137,13 +114,10 @@ def enviar():
         archivo_docx=archivo_docx,
     )
 
-    # 2. Convertir a PDF
-    convertir_a_pdf(archivo_docx)
+    # Enviar el documento por correo
+    enviar_correo_async(archivo_docx)
 
-    # 3. Enviar PDF por correo
-    enviar_correo_async(archivo_pdf)
-
-    return "Reporte enviado correctamente."
+    return "Reporte recibido ✔ Documento generado y enviado por correo."
 
 
 # ==============================================
