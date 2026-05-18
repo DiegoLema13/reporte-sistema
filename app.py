@@ -4,6 +4,9 @@ import threading
 import os
 import base64
 import subprocess
+import subprocess
+import shutil
+
 
 from docxtpl import DocxTemplate
 from sendgrid import SendGridAPIClient
@@ -40,9 +43,22 @@ def generar_documento(nombre, provincia, problema, fecha, archivo_docx):
 # CONVERTIR WORD A PDF (compatible con Render)
 # ==============================================
 def convertir_a_pdf(docx_path):
+    # Buscar el ejecutable disponible
+    ejecutable = (
+        shutil.which("soffice")
+        or shutil.which("libreoffice")
+        or "/usr/bin/soffice"
+        or "/usr/bin/libreoffice"
+    )
+
+    if not ejecutable:
+        raise Exception(
+            "No se encontró LibreOffice. Verifica que APT_PACKAGES=libreoffice esté configurado en Render."
+        )
+
     subprocess.run(
         [
-            "soffice",
+            ejecutable,
             "--headless",
             "--convert-to",
             "pdf",
