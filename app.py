@@ -42,7 +42,7 @@ def generar_documento(nombre, provincia, problema, fecha, archivo_docx):
 def convertir_a_pdf(docx_path):
     subprocess.run(
         [
-            "libreoffice",
+            "soffice",
             "--headless",
             "--convert-to",
             "pdf",
@@ -52,7 +52,6 @@ def convertir_a_pdf(docx_path):
         ],
         check=True,
     )
-
 
 # ==============================================
 # ENVIAR CORREO CON PDF ADJUNTO
