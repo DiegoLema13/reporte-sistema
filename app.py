@@ -117,7 +117,7 @@ def enviar():
     # Enviar el documento por correo
     enviar_correo_async(archivo_docx)
 
-    return "Reporte recibido ✔ Documento generado y enviado por correo."
+    return render_template("exito.html")
 
 
 # ==============================================
