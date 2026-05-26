@@ -21,7 +21,7 @@ app = Flask(__name__)
 # ==============================================
 # GENERAR DOCUMENTO WORD DESDE plantilla.docx
 # ==============================================
-def generar_documento(nombre, provincia, problema, fecha, archivo_docx):
+def generar_documento(nombre, provincia, delegada, problema, fecha, archivo_docx):
     # Carga la plantilla Word ubicada en la raíz del proyecto
     doc = DocxTemplate("plantilla.docx")
 
@@ -30,6 +30,7 @@ def generar_documento(nombre, provincia, problema, fecha, archivo_docx):
     contexto = {
         "nombre": nombre,
         "provincia": provincia,
+        "delegada": delegada,
         "problema": problema,
         "fecha": fecha,
     }
@@ -97,6 +98,7 @@ def enviar():
     # Obtener datos del formulario
     nombre = request.form["nombre"]
     provincia = request.form["provincia"]
+    delegada = request.form["delegada"]
     problema = request.form["problema"]
 
     # Formato de fecha
@@ -109,6 +111,7 @@ def enviar():
     generar_documento(
         nombre=nombre,
         provincia=provincia,
+        delegada=delegada,
         problema=problema,
         fecha=fecha,
         archivo_docx=archivo_docx,
