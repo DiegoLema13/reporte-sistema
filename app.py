@@ -82,6 +82,12 @@ def enviar_correo_async(archivo):
 
     threading.Thread(target=tarea).start()
 
+# ==============================================
+# FORMULARIO
+# ==============================================
+@app.route("/")
+def home():
+    return render_template("formulario.html")
 
 # ==============================================
 # PROCESAR FORMULARIO
