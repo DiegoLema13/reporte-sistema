@@ -84,24 +84,31 @@ def enviar_correo_async(archivo):
 
 
 # ==============================================
-# FORMULARIO
-# ==============================================
-@app.route("/")
-def home():
-    return render_template("formulario.html")
-
-
-# ==============================================
 # PROCESAR FORMULARIO
 # ==============================================
 @app.route("/enviar", methods=["POST"])
 def enviar():
+
     # Obtener datos del formulario
     nombre = request.form["nombre"]
+
     cedula = request.form["cedula"]
+
     provincia = request.form["provincia"]
+
     delegada = request.form["delegada"]
+
     problema = request.form["problema"]
+
+    modelo = request.form["modelo"]
+
+    # Obtener múltiples series
+    series = request.form.getlist("series[]")
+
+    # Mostrar series en consola
+    print("SERIES RECIBIDAS:")
+
+    print(series)
 
     # Formato de fecha
     fecha = datetime.datetime.now().strftime("%d-%m-%Y")
