@@ -31,7 +31,10 @@
         <!-- TECNICO -->
         <label>Técnico</label>
 
-        <select name="nombre" required>
+        <select
+    name="nombre"
+    id="tecnico"
+    required>
 
             <option value="">Seleccione...</option>
 
@@ -44,6 +47,14 @@
             </option>
 
         </select>
+
+        <label>Cédula</label>
+
+<input
+    type="text"
+    name="cedula"
+    id="cedula"
+    readonly>
 
 
         <!-- PROVINCIA -->
@@ -109,68 +120,8 @@
 </div>
 
 
-<script>
-
-    const agencias = {
-
-        "Pichincha": [
-            "Quito Norte",
-            "Quito Sur",
-            "Sangolquí",
-            "Cayambe"
-        ],
-
-        "Guayas": [
-            "Guayaquil Centro",
-            "Durán",
-            "Milagro"
-        ]
-
-    };
-
-    const provinciaSelect =
-        document.getElementById("provincia");
-
-    const agenciaSelect =
-        document.getElementById("agencia");
-
-
-    provinciaSelect.addEventListener("change", function(){
-
-        const provincia =
-            this.value;
-
-        agenciaSelect.innerHTML = "";
-
-        const opcionInicial =
-            document.createElement("option");
-
-        opcionInicial.value = "";
-
-        opcionInicial.textContent =
-            "Seleccione una agencia";
-
-        agenciaSelect.appendChild(opcionInicial);
-
-        if(agencias[provincia]){
-
-            agencias[provincia].forEach(function(agencia){
-
-                const option =
-                    document.createElement("option");
-
-                option.value = agencia;
-
-                option.textContent = agencia;
-
-                agenciaSelect.appendChild(option);
-
-            });
-
-        }
-
-    });
-
+<script
+    src="{{ url_for('static', filename='script.js') }}">
 </script>
 
 </body>
