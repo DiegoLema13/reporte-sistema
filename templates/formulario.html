@@ -1,14 +1,211 @@
-<form action="/enviar" method="post">
-  <h2>Formulario Técnico</h2>
+<!DOCTYPE html>
+<html lang="es">
 
-  Nombre del tecnico:<br>
-  <input type="text" name="nombre" required><br><br>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Técnico</title>
 
-  Agencia:<br>
-  <input type="text" name="provincia" required><br><br>
+    <style>
 
-  Observaciones:<br>
-  <textarea name="problema" required></textarea><br><br>
+        body{
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-  <button type="submit">Enviar</button>
-</form>
+        .contenedor{
+            background: white;
+            padding: 30px;
+            width: 420px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+        }
+
+        h2{
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        label{
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea{
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        textarea{
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button{
+            width: 100%;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover{
+            background: #0056b3;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <h2>Formulario Técnico</h2>
+
+    <form action="/enviar" method="post">
+
+        <!-- TECNICO -->
+        <label>Técnico</label>
+        <select name="nombre" required>
+
+            <option value="">Seleccione...</option>
+
+            <option value="Diego Lema">
+                Diego Lema
+            </option>
+
+            <option value="Juan Perez">
+                Juan Perez
+            </option>
+
+        </select>
+
+
+        <!-- PROVINCIA -->
+        <label>Provincia</label>
+        <select id="provincia" required>
+
+            <option value="">
+                Seleccione...
+            </option>
+
+            <option value="Pichincha">
+                Pichincha
+            </option>
+
+            <option value="Guayas">
+                Guayas
+            </option>
+
+        </select>
+
+
+        <!-- AGENCIA -->
+        <label>Agencia</label>
+        <select name="provincia" id="agencia" required>
+
+            <option value="">
+                Seleccione una provincia primero
+            </option>
+
+        </select>
+
+
+        <!-- OBSERVACIONES -->
+        <label>Observaciones</label>
+
+        <textarea
+            name="problema"
+            placeholder="Ingrese observaciones técnicas..."
+            required>
+        </textarea>
+
+
+        <button type="submit">
+            Enviar Reporte
+        </button>
+
+    </form>
+
+</div>
+
+
+<script>
+
+    const agencias = {
+
+        "Pichincha": [
+            "Quito Norte",
+            "Quito Sur",
+            "Sangolquí",
+            "Cayambe"
+        ],
+
+        "Guayas": [
+            "Guayaquil Centro",
+            "Durán",
+            "Milagro"
+        ]
+
+    };
+
+    const provinciaSelect =
+        document.getElementById("provincia");
+
+    const agenciaSelect =
+        document.getElementById("agencia");
+
+
+    provinciaSelect.addEventListener("change", function(){
+
+        const provincia =
+            this.value;
+
+        agenciaSelect.innerHTML = "";
+
+        const opcionInicial =
+            document.createElement("option");
+
+        opcionInicial.value = "";
+
+        opcionInicial.textContent =
+            "Seleccione una agencia";
+
+        agenciaSelect.appendChild(opcionInicial);
+
+        if(agencias[provincia]){
+
+            agencias[provincia].forEach(function(agencia){
+
+                const option =
+                    document.createElement("option");
+
+                option.value = agencia;
+
+                option.textContent = agencia;
+
+                agenciaSelect.appendChild(option);
+
+            });
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
