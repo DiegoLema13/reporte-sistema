@@ -85,3 +85,27 @@ tecnicoSelect.addEventListener("change", function(){
         tecnicos[tecnico] || "";
 
 });
+
+const botonAgregarSerie =
+    document.getElementById("agregar-serie");
+
+const contenedorSeries =
+    document.getElementById("contenedor-series");
+
+
+botonAgregarSerie.addEventListener("click", function(){
+
+    const input =
+        document.createElement("input");
+
+    input.type = "text";
+
+    input.name = "series[]";
+
+    input.placeholder = "Ingrese serie";
+
+    input.required = true;
+
+    contenedorSeries.appendChild(input);
+
+});
