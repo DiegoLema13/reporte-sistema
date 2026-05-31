@@ -49,6 +49,9 @@ def generar_documento(
         "fecha": fecha,
     }
 
+    print("SERIES TEXTO:")
+    print(series_texto)
+
     doc.render(contexto)
     doc.save(archivo_docx)
 
@@ -143,7 +146,7 @@ def enviar():
         delegada=delegada,
         problema=problema,
         modelo=modelo,
-        series_texto = "\n".join(series),
+        series=series,
         fecha=fecha,
         archivo_docx=archivo_docx,
     )
