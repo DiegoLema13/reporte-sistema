@@ -21,27 +21,43 @@ app = Flask(__name__)
 # ==============================================
 # GENERAR DOCUMENTO WORD DESDE plantilla.docx
 # ==============================================
-def generar_documento(nombre, cedula, provincia, delegada, modelo, series, problema, fecha, archivo_docx):
-    # Carga la plantilla Word ubicada en la raíz del proyecto
+def generar_documento(
+    nombre,
+    cedula,
+    provincia,
+    delegada,
+    modelo,
+    series,
+    problema,
+    fecha,
+    archivo_docx
+):
+    
     doc = DocxTemplate("plantilla.docx")
 
-    # Variables que reemplazarán:
-    # {{ nombre }}, {{ provincia }}, {{ problema }}, {{ fecha }}
+    filas = []
+
+    for i, serie in enumerate(series):
+
+        filas.append({
+            "provincia": provincia if i == 0 else "",
+            "detalle": "Impresora Financiera" if i == 0 else "",
+            "modelo": modelo if i == 0 else "",
+            "serie": serie
+        })
+
     contexto = {
         "nombre": nombre,
         "cedula": cedula,
         "provincia": provincia,
         "delegada": delegada,
-        "modelo": modelo,
-        "series": series,
         "problema": problema,
         "fecha": fecha,
+        "filas": filas
     }
 
-    # Reemplazar variables y guardar el documento final
     doc.render(contexto)
     doc.save(archivo_docx)
-
 
 # ==============================================
 # ENVIAR CORREO CON DOCX ADJUNTO
@@ -123,6 +139,8 @@ def enviar():
 
     # Archivo de salida
     archivo_docx = "reporte_tecnico.docx"
+
+    
 
     # Generar documento Word basado en la plantilla
     generar_documento(
