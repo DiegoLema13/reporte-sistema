@@ -137,7 +137,7 @@ def enviar():
     # Formato de fecha
     fecha = datetime.datetime.now().strftime("%d-%m-%Y")
 
-    # Archivo de salida
+    # Archivo de salidaa
     archivo_docx = "reporte_tecnico.docx"
 
     
