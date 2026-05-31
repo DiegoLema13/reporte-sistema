@@ -35,31 +35,23 @@ def generar_documento(
 
     doc = DocxTemplate("plantilla.docx")
 
+    # Unir todas las series en un solo texto
+    series_texto = "\n".join(series)
+
     contexto = {
         "nombre": nombre,
         "cedula": cedula,
         "provincia": provincia,
         "delegada": delegada,
         "modelo": modelo,
+        "series_texto": series_texto,
         "problema": problema,
         "fecha": fecha,
-        "serie_principal": series[0] if series else "",
     }
 
     doc.render(contexto)
-
-    tabla = doc.tables[0]
-
-    for serie in series[1:]:
-        nueva_fila = tabla.add_row().cells
-
-        nueva_fila[0].text = ""
-        nueva_fila[1].text = ""
-        nueva_fila[2].text = ""
-        nueva_fila[3].text = serie
-
     doc.save(archivo_docx)
-    
+
 # ==============================================
 # ENVIAR CORREO CON DOCX ADJUNTO
 # ==============================================
@@ -151,7 +143,7 @@ def enviar():
         delegada=delegada,
         problema=problema,
         modelo=modelo,
-        series=series,
+        series_texto = "\n".join(series),
         fecha=fecha,
         archivo_docx=archivo_docx,
     )
