@@ -32,33 +32,34 @@ def generar_documento(
     fecha,
     archivo_docx
 ):
-    
+
     doc = DocxTemplate("plantilla.docx")
-
-    filas = []
-
-    for i, serie in enumerate(series):
-
-        filas.append({
-            "provincia": provincia if i == 0 else "",
-            "detalle": "Impresora Financiera" if i == 0 else "",
-            "modelo": modelo if i == 0 else "",
-            "serie": serie
-        })
 
     contexto = {
         "nombre": nombre,
         "cedula": cedula,
         "provincia": provincia,
         "delegada": delegada,
+        "modelo": modelo,
         "problema": problema,
         "fecha": fecha,
-        "filas": filas
+        "serie_principal": series[0] if series else "",
     }
 
     doc.render(contexto)
-    doc.save(archivo_docx)
 
+    tabla = doc.tables[0]
+
+    for serie in series[1:]:
+        nueva_fila = tabla.add_row().cells
+
+        nueva_fila[0].text = ""
+        nueva_fila[1].text = ""
+        nueva_fila[2].text = ""
+        nueva_fila[3].text = serie
+
+    doc.save(archivo_docx)
+    
 # ==============================================
 # ENVIAR CORREO CON DOCX ADJUNTO
 # ==============================================
