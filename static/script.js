@@ -63,8 +63,22 @@ provinciaSelect.addEventListener("change", function(){
 
 const tecnicos = {
 
-    "Diego Lema": "1312316811",
-    "Juan Perez": "9999999999"
+    "Jorgue Quijije": "1317604039",
+    "Luis Llivisaca": "1400825673",
+    "Jefferson Reyes": "1311208068",
+    "Jaime Gonzalez": "1104055346",
+    "Daniel Yuquilema": "0919137315",
+    "Cristian Tene": "1105041675",
+    "Leonardo Quijije": "1312316811",
+    "Jorge Morocho Jimenez": "0104922869",
+    "Jesus Quijije": "1316415643",
+    "Cristian Silva": "2000072831",
+    "Jorge Morocho Buele": "1400854251",
+    "Ronald Paute": "0106409402",
+    "Jefferson Pillco": "2100725494",
+    "Jean Cordova": "1313617753",
+    "Victor Nieves": "0103174017",
+    "Ricardo Moreira": "1722253992",
 
 };
 
