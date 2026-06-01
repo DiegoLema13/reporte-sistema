@@ -1,13 +1,61 @@
 const agencias = {
 
-    "Pichincha": [
-        "Quito Norte",
-        "Quito Sur",
-        "Sangolquí",
-        "Cayambe"
+    "Ibarra": [
+        "Tulcan",
+        "San Gabriel",
+        "El Angel",
+        "Mira",
+        "Ibarra",
+        "Atuntaqui",
+        "Pimampiro",
+        "Otavalo",
+        "Cotacachi",
+        "Lago Agrio",
+        "Putumayo",
+        "Lumbaqui",
+        "Tarapoa",
+        "Esmeraldas",
+        "Atacames",
+        "Limones",
+        "San Lorenzo",
+        "Muisne",
+        "Quininde",
+        "Shushufindi",
+        "Puerto Pesquero Esmeraldas(Cac)"
     ],
 
-    "Guayas": [
+    "Quito": [
+        "Guayaquil Centro",
+        "Durán",
+        "Milagro"
+    ],
+
+
+     "Riobamba": [
+        "Guayaquil Centro",
+        "Durán",
+        "Milagro"
+    ],
+
+     "Portoviejo": [
+        "Guayaquil Centro",
+        "Durán",
+        "Milagro"
+    ],
+
+     "Guayaquil": [
+        "Guayaquil Centro",
+        "Durán",
+        "Milagro"
+    ],
+
+     "Cuenca": [
+        "Guayaquil Centro",
+        "Durán",
+        "Milagro"
+    ],
+
+     "Loja": [
         "Guayaquil Centro",
         "Durán",
         "Milagro"
@@ -16,16 +64,16 @@ const agencias = {
 };
 
 
-const provinciaSelect =
-    document.getElementById("provincia");
+const zonalSelect =
+    document.getElementById("zonal");
 
 const agenciaSelect =
     document.getElementById("agencia");
 
 
-provinciaSelect.addEventListener("change", function(){
+zonalSelect.addEventListener("change", function(){
 
-    const provincia =
+    const zonal =
         this.value;
 
     agenciaSelect.innerHTML = "";
@@ -40,9 +88,9 @@ provinciaSelect.addEventListener("change", function(){
 
     agenciaSelect.appendChild(opcionInicial);
 
-    if(agencias[provincia]){
+    if(agencias[zonal]){
 
-        agencias[provincia].forEach(function(agencia){
+        agencias[zonal].forEach(function(agencia){
 
             const option =
                 document.createElement("option");
