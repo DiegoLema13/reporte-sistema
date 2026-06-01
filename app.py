@@ -24,7 +24,7 @@ app = Flask(__name__)
 def generar_documento(
     nombre,
     cedula,
-    provincia,
+    zonal,
     delegada,
     modelo,
     series,
@@ -41,7 +41,7 @@ def generar_documento(
     contexto = {
         "nombre": nombre,
         "cedula": cedula,
-        "provincia": provincia,
+        "zonal": zonal,
         "delegada": delegada,
         "modelo": modelo,
         "series_texto": series_texto,
@@ -114,7 +114,7 @@ def enviar():
 
     cedula = request.form["cedula"]
 
-    provincia = request.form["provincia"]
+    zonal = request.form["zonal"]
 
     delegada = request.form["delegada"]
 
@@ -142,7 +142,7 @@ def enviar():
     generar_documento(
         nombre=nombre,
         cedula=cedula,
-        provincia=provincia,
+        zonal=zonal,
         delegada=delegada,
         problema=problema,
         modelo=modelo,
