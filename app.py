@@ -5,6 +5,9 @@ import os
 from openpyxl import Workbook, load_workbook
 import base64
 
+import gspread
+from google.oauth2.service_account import Credentials
+
 from docxtpl import DocxTemplate
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import (
@@ -154,6 +157,52 @@ def guardar_excel(
 
     print("REGISTRO GUARDADO EN EXCEL")
 
+    # ==============================================
+# REGISTRAR EN GOOGLE SHEETS
+# ==============================================
+def guardar_google_sheets(
+    fecha,
+    nombre,
+    cedula,
+    zonal,
+    delegada,
+    celular_delegada,
+    correo_delegada,
+    horario_atencion,
+    cantidad_equipos,
+    series
+):
+
+    SCOPES = [
+        "https://www.googleapis.com/auth/spreadsheets"
+    ]
+
+    creds = Credentials.from_service_account_file(
+        "reporte-sistema-010dc708152b.json",
+        scopes=SCOPES
+    )
+
+    cliente = gspread.authorize(creds)
+
+    hoja = cliente.open_by_key(
+        "1kCtmkMrx_7xNFhxACTYfE5K0slokjaL7RJth0hiAQc8"
+    ).sheet1
+
+    hoja.append_row([
+        fecha,
+        nombre,
+        cedula,
+        zonal,
+        delegada,
+        celular_delegada,
+        correo_delegada,
+        horario_atencion,
+        cantidad_equipos,
+        ", ".join(series)
+    ])
+
+    print("REGISTRO GUARDADO EN GOOGLE SHEETS")
+
 # ==============================================
 # FORMULARIO
 # ==============================================
@@ -225,6 +274,18 @@ def enviar():
     )
 
     guardar_excel(
+    fecha=fecha,
+    nombre=nombre,
+    cedula=cedula,
+    zonal=zonal,
+    delegada=delegada,
+    celular_delegada=celular_delegada,
+    correo_delegada=correo_delegada,
+    horario_atencion=horario_atencion,
+    cantidad_equipos=cantidad_equipos,
+    series=series
+)
+    guardar_google_sheets(
     fecha=fecha,
     nombre=nombre,
     cedula=cedula,
