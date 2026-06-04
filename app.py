@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import datetime
 import threading
 import os
+from openpyxl import Workbook, load_workbook
 import base64
 
 from docxtpl import DocxTemplate
@@ -60,6 +61,7 @@ def generar_documento(
 # ==============================================
 def enviar_correo_async(archivo):
 
+
     def tarea():
         try:
             message = Mail(
@@ -95,6 +97,62 @@ def enviar_correo_async(archivo):
             print("ERROR SENDGRID:", str(e))
 
     threading.Thread(target=tarea).start()
+
+
+    # ==============================================
+# REGISTRAR EN EXCEL
+# ==============================================
+def guardar_excel(
+    fecha,
+    nombre,
+    cedula,
+    zonal,
+    delegada,
+    celular_delegada,
+    correo_delegada,
+    horario_atencion,
+    cantidad_equipos,
+    series
+):
+
+    archivo_excel = "reportes.xlsx"
+
+    if os.path.exists(archivo_excel):
+        wb = load_workbook(archivo_excel)
+        ws = wb.active
+    else:
+        wb = Workbook()
+        ws = wb.active
+
+        ws.append([
+            "Fecha",
+            "Tecnico",
+            "Cedula",
+            "Zonal",
+            "Delegada",
+            "Celular",
+            "Correo",
+            "Horario",
+            "Cantidad Equipos",
+            "Series"
+        ])
+
+    ws.append([
+        fecha,
+        nombre,
+        cedula,
+        zonal,
+        delegada,
+        celular_delegada,
+        correo_delegada,
+        horario_atencion,
+        cantidad_equipos,
+        ", ".join(series)
+    ])
+
+    wb.save(archivo_excel)
+
+    print("REGISTRO GUARDADO EN EXCEL")
 
 # ==============================================
 # FORMULARIO
@@ -165,6 +223,19 @@ def enviar():
         fecha=fecha,
         archivo_docx=archivo_docx,
     )
+
+    guardar_excel(
+    fecha=fecha,
+    nombre=nombre,
+    cedula=cedula,
+    zonal=zonal,
+    delegada=delegada,
+    celular_delegada=celular_delegada,
+    correo_delegada=correo_delegada,
+    horario_atencion=horario_atencion,
+    cantidad_equipos=cantidad_equipos,
+    series=series
+)
 
     # Enviar el documento por correo
     enviar_correo_async(archivo_docx)

@@ -3,3 +3,4 @@ reportlab
 gunicorn
 sendgrid
 docxtpl
+openpyxl
