@@ -4,3 +4,5 @@ gunicorn
 sendgrid
 docxtpl
 openpyxl
+gspread
+google-auth
