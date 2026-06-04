@@ -105,103 +105,103 @@ def enviar_correo_async(archivo):
     # ==============================================
 # REGISTRAR EN EXCEL
 # ==============================================
-def guardar_excel(
-    fecha,
-    nombre,
-    cedula,
-    zonal,
-    delegada,
-    celular_delegada,
-    correo_delegada,
-    horario_atencion,
-    cantidad_equipos,
-    series
-):
+# def guardar_excel(
+#     fecha,
+#     nombre,
+#     cedula,
+#     zonal,
+#     delegada,
+#     celular_delegada,
+#     correo_delegada,
+#     horario_atencion,
+#     cantidad_equipos,
+#     series
+# ):
 
-    archivo_excel = "reportes.xlsx"
+#     archivo_excel = "reportes.xlsx"
 
-    if os.path.exists(archivo_excel):
-        wb = load_workbook(archivo_excel)
-        ws = wb.active
-    else:
-        wb = Workbook()
-        ws = wb.active
+#     if os.path.exists(archivo_excel):
+#         wb = load_workbook(archivo_excel)
+#         ws = wb.active
+#     else:
+#         wb = Workbook()
+#         ws = wb.active
 
-        ws.append([
-            "Fecha",
-            "Tecnico",
-            "Cedula",
-            "Zonal",
-            "Delegada",
-            "Celular",
-            "Correo",
-            "Horario",
-            "Cantidad Equipos",
-            "Series"
-        ])
+#         ws.append([
+#             "Fecha",
+#             "Tecnico",
+#             "Cedula",
+#             "Zonal",
+#             "Delegada",
+#             "Celular",
+#             "Correo",
+#             "Horario",
+#             "Cantidad Equipos",
+#             "Series"
+#         ])
 
-    ws.append([
-        fecha,
-        nombre,
-        cedula,
-        zonal,
-        delegada,
-        celular_delegada,
-        correo_delegada,
-        horario_atencion,
-        cantidad_equipos,
-        ", ".join(series)
-    ])
+#     ws.append([
+#         fecha,
+#         nombre,
+#         cedula,
+#         zonal,
+#         delegada,
+#         celular_delegada,
+#         correo_delegada,
+#         horario_atencion,
+#         cantidad_equipos,
+#         ", ".join(series)
+#     ])
 
-    wb.save(archivo_excel)
+#     wb.save(archivo_excel)
 
-    print("REGISTRO GUARDADO EN EXCEL")
+#     print("REGISTRO GUARDADO EN EXCEL")
 
     # ==============================================
 # REGISTRAR EN GOOGLE SHEETS
 # ==============================================
-def guardar_google_sheets(
-    fecha,
-    nombre,
-    cedula,
-    zonal,
-    delegada,
-    celular_delegada,
-    correo_delegada,
-    horario_atencion,
-    cantidad_equipos,
-    series
-):
+# def guardar_google_sheets(
+#     fecha,
+#     nombre,
+#     cedula,
+#     zonal,
+#     delegada,
+#     celular_delegada,
+#     correo_delegada,
+#     horario_atencion,
+#     cantidad_equipos,
+#     series
+# ):
 
-    SCOPES = [
-        "https://www.googleapis.com/auth/spreadsheets"
-    ]
+#     SCOPES = [
+#         "https://www.googleapis.com/auth/spreadsheets"
+#     ]
 
-    creds = Credentials.from_service_account_file(
-        "reporte-sistema-010dc708152b.json",
-        scopes=SCOPES
-    )
+#     creds = Credentials.from_service_account_file(
+#         "reporte-sistema-010dc708152b.json",
+#         scopes=SCOPES
+#     )
 
-    cliente = gspread.authorize(creds)
+#     cliente = gspread.authorize(creds)
 
-    hoja = cliente.open_by_key(
-        "1kCtmkMrx_7xNFhxACTYfE5K0slokjaL7RJth0hiAQc8"
-    ).sheet1
+#     hoja = cliente.open_by_key(
+#         "1kCtmkMrx_7xNFhxACTYfE5K0slokjaL7RJth0hiAQc8"
+#     ).sheet1
 
-    hoja.append_row([
-        fecha,
-        nombre,
-        cedula,
-        zonal,
-        delegada,
-        celular_delegada,
-        correo_delegada,
-        horario_atencion,
-        cantidad_equipos,
-        ", ".join(series)
-    ])
+#     hoja.append_row([
+#         fecha,
+#         nombre,
+#         cedula,
+#         zonal,
+#         delegada,
+#         celular_delegada,
+#         correo_delegada,
+#         horario_atencion,
+#         cantidad_equipos,
+#         ", ".join(series)
+#     ])
 
-    print("REGISTRO GUARDADO EN GOOGLE SHEETS")
+#     print("REGISTRO GUARDADO EN GOOGLE SHEETS")
 
 # ==============================================
 # FORMULARIO
@@ -273,7 +273,7 @@ def enviar():
         archivo_docx=archivo_docx,
     )
 
-    guardar_excel(
+   # guardar_excel(
     fecha=fecha,
     nombre=nombre,
     cedula=cedula,
@@ -284,8 +284,8 @@ def enviar():
     horario_atencion=horario_atencion,
     cantidad_equipos=cantidad_equipos,
     series=series
-)
-    guardar_google_sheets(
+#)
+    #guardar_google_sheets(
     fecha=fecha,
     nombre=nombre,
     cedula=cedula,
@@ -296,7 +296,7 @@ def enviar():
     horario_atencion=horario_atencion,
     cantidad_equipos=cantidad_equipos,
     series=series
-)
+#)
 
     # Enviar el documento por correo
     enviar_correo_async(archivo_docx)
