@@ -118,6 +118,12 @@ def enviar():
 
     delegada = request.form["delegada"]
 
+    celular_delegada = request.form["celular_delegada"]
+
+    correo_delegada = request.form["correo_delegada"]
+
+    horario_atencion = request.form["horario_atencion"]
+
     problema = request.form["problema"]
 
     modelo = request.form["modelo"]
@@ -125,10 +131,19 @@ def enviar():
     # Obtener múltiples series
     series = request.form.getlist("series[]")
 
+    # Cantidad de equipos
+    cantidad_equipos = len(series)
+
     # Mostrar series en consola
     print("SERIES RECIBIDAS:")
 
     print(series)
+
+
+    print("CELULAR:", celular_delegada)
+    print("CORREO:", correo_delegada)
+    print("HORARIO:", horario_atencion)
+    print("CANTIDAD:", cantidad_equipos)
 
     # Formato de fecha
     fecha = datetime.datetime.now().strftime("%d-%m-%Y")
