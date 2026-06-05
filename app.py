@@ -196,6 +196,7 @@ def guardar_google_sheets(
     cedula,
     zonal,
     delegada,
+    cedula_delegada,
     celular_delegada,
     correo_delegada,
     horario_atencion,
@@ -228,6 +229,7 @@ def guardar_google_sheets(
         cedula,
         zonal,
         delegada,
+        cedula_delegada,
         celular_delegada,
         correo_delegada,
         horario_atencion,
@@ -259,6 +261,8 @@ def enviar():
 
     delegada = request.form["delegada"]
 
+    cedula_delegada = request.form["cedula_delegada"]
+
     celular_delegada = request.form["celular_delegada"]
 
     correo_delegada = request.form["correo_delegada"]
@@ -283,6 +287,7 @@ def enviar():
 
     print("CELULAR:", celular_delegada)
     print("CORREO:", correo_delegada)
+    print("CEDULA DELEGADA:", cedula_delegada)
     print("HORARIO:", horario_atencion)
     print("CANTIDAD:", cantidad_equipos)
 
@@ -325,6 +330,7 @@ def enviar():
     cedula=cedula,
     zonal=zonal,
     delegada=delegada,
+    cedula_delegada=cedula_delegada,
     celular_delegada=celular_delegada,
     correo_delegada=correo_delegada,
     horario_atencion=horario_atencion,
