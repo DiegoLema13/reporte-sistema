@@ -284,6 +284,9 @@ botonAgregarSerie.addEventListener("click", function(){
 
     input.required = true;
 
+    input.addEventListener("input", function() {
+    this.value = this.value.toUpperCase();});
+
     contenedorSeries.appendChild(input);
 
 });

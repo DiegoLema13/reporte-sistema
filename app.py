@@ -279,6 +279,9 @@ def enviar():
     # Obtener múltiples series
     series = request.form.getlist("series[]")
 
+    # Convertir todas las series a mayúsculas
+    series = [serie.upper() for serie in series]
+
     # Cantidad de equipos
     cantidad_equipos = len(series)
 
