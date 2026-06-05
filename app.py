@@ -63,6 +63,7 @@ def generar_documento(
     dia, mes, anio = fecha.split("-")
 
     fecha_larga = f"{dia} días del mes de {meses[mes]} del {anio}"
+    fecha_corta = f"{dia} de {meses[mes]} de {anio}"
 
     contexto = {
         "nombre": nombre,
@@ -74,6 +75,7 @@ def generar_documento(
         "problema": problema,
         "fecha": fecha,
         "contexto_fecha_larga": fecha_larga,
+        "contexto_fecha_corta": fecha_corta,
         
     }
     
