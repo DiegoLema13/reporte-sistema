@@ -201,7 +201,8 @@ def guardar_google_sheets(
     correo_delegada,
     horario_atencion,
     cantidad_equipos,
-    series
+    series,
+    problema
 ):
 
     SCOPES = [
@@ -234,7 +235,8 @@ def guardar_google_sheets(
         correo_delegada,
         horario_atencion,
         cantidad_equipos,
-        ", ".join(series)
+        ", ".join(series),
+        problema
     ])
 
     print("REGISTRO GUARDADO EN GOOGLE SHEETS")
@@ -335,7 +337,8 @@ def enviar():
     correo_delegada=correo_delegada,
     horario_atencion=horario_atencion,
     cantidad_equipos=cantidad_equipos,
-    series=series
+    series=series,
+    problema=problema
 )
 
     # Enviar el documento por correo
