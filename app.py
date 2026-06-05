@@ -5,6 +5,7 @@ import os
 from openpyxl import Workbook, load_workbook
 import base64
 import json
+from zoneinfo import ZoneInfo
 
 import gspread
 from google.oauth2.service_account import Credentials
@@ -294,7 +295,8 @@ def enviar():
     print("CANTIDAD:", cantidad_equipos)
 
     # Formato de fecha
-    fecha = datetime.datetime.now().strftime("%d-%m-%Y")
+    fecha = datetime.datetime.now(
+    ZoneInfo("America/Guayaquil")).strftime("%d-%m-%Y")
 
     # Archivo de salidaa
     archivo_docx = "reporte_tecnico.docx"
