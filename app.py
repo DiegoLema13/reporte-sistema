@@ -52,7 +52,29 @@ def generar_documento(
         "series_texto": series_texto,
         "problema": problema,
         "fecha": fecha,
+        "contexto_fecha_larga": fecha_larga,
+        
     }
+    meses = {
+    "01": "enero",
+    "02": "febrero",
+    "03": "marzo",
+    "04": "abril",
+    "05": "mayo",
+    "06": "junio",
+    "07": "julio",
+    "08": "agosto",
+    "09": "septiembre",
+    "10": "octubre",
+    "11": "noviembre",
+    "12": "diciembre",
+}
+
+    dia, mes, anio = fecha.split("-")
+
+    fecha_larga = f"{dia} días del mes de {meses[mes]} del {anio}"
+
+    
 
     print("SERIES TEXTO:")
     print(series_texto)
