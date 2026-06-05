@@ -43,18 +43,8 @@ def generar_documento(
     # Unir todas las series en un solo texto
     series_texto = "\n".join(series)
 
-    contexto = {
-        "nombre": nombre,
-        "cedula": cedula,
-        "zonal": zonal,
-        "delegada": delegada,
-        "modelo": modelo,
-        "series_texto": series_texto,
-        "problema": problema,
-        "fecha": fecha,
-        "contexto_fecha_larga": fecha_larga,
-        
-    }
+    #Agregar fecha
+
     meses = {
     "01": "enero",
     "02": "febrero",
@@ -73,6 +63,20 @@ def generar_documento(
     dia, mes, anio = fecha.split("-")
 
     fecha_larga = f"{dia} días del mes de {meses[mes]} del {anio}"
+
+    contexto = {
+        "nombre": nombre,
+        "cedula": cedula,
+        "zonal": zonal,
+        "delegada": delegada,
+        "modelo": modelo,
+        "series_texto": series_texto,
+        "problema": problema,
+        "fecha": fecha,
+        "contexto_fecha_larga": fecha_larga,
+        
+    }
+    
 
     
 
