@@ -229,19 +229,20 @@ zonalSelect.addEventListener("change", function(){
 
 
 const tecnicos = {
-    
-    "Sandro Sanchez": "1950011567",
-    "Daniel Yuquilema": "0919137315",
-    "Lewis Zambrano": "1307687465",
-    "Leonardo Quijije": "1312316811",
-    "Jorge Morocho Jimenez": "0104922869",
-    "Jesus Quijije": "1316415643",
+
     "Cristian Silva": "2000072831",
-    "Jorge Morocho Buele": "1400854251",
-    "Raul Flores": "1900583525",
+    "Daniel Yuquilema": "0919137315",
     "Jefferson Pillco": "2100725494",
-    "Victor Nieves": "0103174017",
+    "Jesus Quijije": "1316415643",
+    "Jorge Morocho Buele": "1400854251",
+    "Jorge Morocho Jimenez": "0104922869",
+    "Leonardo Quijije": "1312316811",
+    "Lewis Zambrano": "1307687465",
+    "Raul Flores": "1900583525",
     "Ricardo Moreira": "1722253992",
+    "Sandro Sanchez": "1950011567",
+    "Victor Nieves": "0103174017",
+    
 
 };
 
